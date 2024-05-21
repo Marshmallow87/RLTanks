@@ -146,7 +146,6 @@ class Game:
 
     def end_of_round(self) -> int:
         """End of round, award points and check if game is over"""
-
         total_reward = 0
         total_reward += self.award_capture_points()
 
@@ -181,10 +180,12 @@ class Game:
         return total_reward
 
     def add_vehicle(self, vehicle: Vehicle):
+        """Add vehicle to the game."""
         self.vehicles.append(vehicle)
 
     # Place and add vehicles
     def place_vehicles(self, players: list["Player"]):
+        """Place vehicles on the map for each player."""
         rounded_amount_from_edge = round((self.map_radius + 1 - 5) / 2)
         firstVehicleIndex = 0
         secondVehicleIndex = 0
@@ -282,6 +283,7 @@ class Game:
                     thirdVehicleIndex += 1
 
     def check_collision(self, new_position: tuple[int, int]) -> bool:
+        """Check if collision occurs in new position."""
         for vehicle in self.vehicles:
             if vehicle.position == new_position:
                 print(f"Collision detected in position {new_position}")
@@ -314,7 +316,6 @@ class Game:
             ):
                 vehicle.hp = vehicle.spawn_hp
             return True  # Move successful
-        # print("Couldn't move, another vehicle already in place")
         return False  # Collision occurred, unable to move
 
     def check_win(self, players: list["Player"]) -> list[int]:
@@ -329,7 +330,6 @@ class Game:
                 winners.append(index)
         return winners
 
-    # I don't check for repair hexes at the end of a round on shoot, because I don't think there will be a situation of getting shot while at repair hex
     def shoot(self, vehicle: Vehicle, shooting_target: tuple[int, int]) -> int:
         reward_gained = 0
 
@@ -380,6 +380,7 @@ class Game:
     def get_tank_destroyer_shot_vehicles(
         self, vehicle: Vehicle, shooting_target
     ) -> list[Vehicle]:
+        """Get vehicles that are shot by tank destroyer."""
         shot_vehicles = []
         shootable_hexes_by_direction_vector = vehicle.get_shootable_hexes()
 
